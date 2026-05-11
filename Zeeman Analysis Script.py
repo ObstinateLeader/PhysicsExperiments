@@ -43,14 +43,19 @@ import sys
 # Ensure the folder containing this script is on sys.path so the local
 # calibration module can be imported reliably.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+print(f"Searching in: {SCRIPT_DIR}") # Verify this is the folder with your script
+
+# Script directory for the spectrum calibration script
+# SCRIPT_DIR = r"C:\Users\chris\Documents\GitHub\PhysicsExperiments"
+print(f"Searching in: {SCRIPT_DIR}") # Verify this is the folder with your script
 sys.path.append(SCRIPT_DIR)
-# from callibration_newest import (
-#     REFERENCE_LINES,
-#     gaussian,
-#     fit_peak,
-#     run_calibration,
-#     pixel_to_wavelength,
-# )
+from Spectrum_Calibration_Script import (
+    REFERENCE_LINES,
+    gaussian,
+    fit_peak,
+    run_calibration,
+    pixel_to_wavelength,
+)
 REFERENCE_LINES = {
     "Ne 585.2": 585.2488,
     "Ne 603.0": 603.0,      # ~602.7 nm
@@ -193,26 +198,26 @@ def fit_zeeman_components(wavelengths_nm, intensities, center_nm,
 # ===========================================================================
 
 def load_and_calibrate(filepath, manual_peaks, poly_order=POLY_ORDER, prominence_factor=0.2, fname="calibration_data.npz"):
-    # """Load a spectrum file and return a calibrated wavelength axis."""
-    # pixels, spectrum = np.loadtxt(
-    #     filepath, delimiter=DELIMITER, skiprows=SKIP_ROWS, unpack=True
-    # )
-    # coeffs, residuals, peak_info = run_calibration(
-    #     pixels, spectrum, REFERENCE_LINES,
-    #     poly_order=poly_order,
-    #     peak_window=PEAK_WINDOW,
-    #     manual_peaks=manual_peaks,
-    #     prominence_factor=prominence_factor
-    # )
-    # wavelengths = pixel_to_wavelength(pixels, coeffs)
-    container = np.load(fname, allow_pickle=True)
-    pixels = container['pixels']
-    spectrum = container['spectrum']
-    # wavelengths = container['wavelengths']
-    coeffs = container['coeffs']
-    residuals = container['residuals']
-    peak_info = container['peak_info']
+    """Load a spectrum file and return a calibrated wavelength axis."""
+    pixels, spectrum = np.loadtxt(
+        filepath, delimiter=DELIMITER, skiprows=SKIP_ROWS, unpack=True
+    )
+    coeffs, residuals, peak_info = run_calibration(
+        pixels, spectrum, REFERENCE_LINES,
+        poly_order=poly_order,
+        peak_window=PEAK_WINDOW,
+        manual_peaks=manual_peaks,
+        prominence_factor=prominence_factor
+    )
     wavelengths = pixel_to_wavelength(pixels, coeffs)
+    # container = np.load(fname, allow_pickle=True)
+    # pixels = container['pixels']
+    # spectrum = container['spectrum']
+    # # wavelengths = container['wavelengths']
+    # coeffs = container['coeffs']
+    # residuals = container['residuals']
+    # peak_info = container['peak_info']
+    # wavelengths = pixel_to_wavelength(pixels, coeffs)
     return pixels, spectrum, wavelengths, coeffs, residuals, peak_info
 
 

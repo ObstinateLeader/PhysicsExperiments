@@ -10,6 +10,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.signal import find_peaks
+import os
+
+# Set the directory where the files are located
+os.chdir(r'C:\Users\chris\OneDrive\Documenten\Studie\Vakken')
 
 
 # ---------------------------------------------------------------------------
@@ -462,12 +466,12 @@ if __name__ == "__main__":
     # np.save("data.npy", np.array([pixels, spectrum,coeffs, residuals, peak_info]))
 # Load with: arr = np.load("data.npy")
 
-np.savez("calibration_on.npz", 
-         pixels=pixels, 
-         spectrum=spectrum, 
-         coeffs=coeffs, 
-         residuals=residuals, 
-         peak_info=peak_info)
+# np.savez("calibration_on.npz", 
+#          pixels=pixels, 
+#          spectrum=spectrum, 
+#          coeffs=coeffs, 
+#          residuals=residuals, 
+#          peak_info=peak_info)
 
 # To load it back:
 # data = np.load("calibration_data.npz", allow_pickle=True)
